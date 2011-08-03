@@ -1,0 +1,7 @@
+[
+    {
+        "caption": "Objective-J: Generate Completions",
+        "command": "generate_cappuccino_completions",
+        "args": {}
+    }
+]

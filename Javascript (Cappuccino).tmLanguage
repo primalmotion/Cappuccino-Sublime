@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>fileTypes</key>
+	<array>
+		<string>js</string>
+	</array>
+	<key>foldingStartMarker</key>
+	<string>^.*\bfunction\s*(\w+\s*)?\([^\)]*\)(\s*\{[^\}]*)?\s*$</string>
+	<key>foldingStopMarker</key>
+	<string>^\s*\}</string>
+	<key>name</key>
+	<string>Javascript (Objective-J)</string>
+	<key>patterns</key>
+	<array>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.js.cappuccino</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>^GLOBAL\((.+?)\)(?=\s*=\s*function\()</string>
+			<key>name</key>
+			<string>meta.function.js.cappuccino</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>source.js</string>
+		</dict>
+	</array>
+	<key>scopeName</key>
+	<string>source.js.cappuccino</string>
+	<key>uuid</key>
+	<string>30709D8A-9AF3-4C8F-9F7E-9EF8212869E4</string>
+</dict>
+</plist>

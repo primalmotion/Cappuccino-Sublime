@@ -1,0 +1,35 @@
+{
+	// Set to true to removing trailing white space on save
+	"trim_trailing_white_space_on_save": true,
+
+	// Set to true to ensure the last line of the file ends in a newline
+	// character when saving
+	"ensure_newline_at_eof_on_save": true,
+
+	// The encoding to use when the encoding can't be determined automatically.
+	// ASCII, UTF-8 and UTF-16 encodings will be automatically detected.
+	"fallback_encoding": "utf-8",
+
+	// Determines what character(s) are used to terminate each line in new files.
+	// Valid values are 'system' (whatever the OS uses), 'windows' (CRLF) and
+	// 'unix' (LF only).
+	"default_line_ending": "unix",
+
+	// When enabled, pressing tab will insert the best matching completion.
+	// When disabled, tab will only trigger snippets or insert a tab.
+	// Shift+tab can be used to insert an explicit tab when tab_completion is
+	// enabled.
+	"tab_completion": false,
+
+	// By default, shift+tab will only unindent if the selection spans
+	// multiple lines. When pressing shift+tab at other times, it'll insert a
+	// tab character - this allows tabs to be inserted when tab_completion is
+	// enabled. Set this to true to make shift+tab always unindent, instead of
+	// inserting tabs.
+	"shift_tab_unindent": false,
+
+	// The target application used to lookup symbols. Should be one of
+	// "ingredients", "appkido", "web-local", "web".
+	// NOTE: Only "ingredients" is implemented currently.
+	"cappuccino_lookup_target": "ingredients"
+}

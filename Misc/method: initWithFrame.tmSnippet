@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>- (id)initWithFrame:(CGRect)aFrame
+{
+    self = [super initWithFrame:aFrame];
+    
+    if (self)
+    {
+        $0
+    }
+    
+    return self;
+}
+</string>
+	<key>name</key>
+	<string>method: initWithFrame</string>
+	<key>scope</key>
+	<string>source.js.objj</string>
+	<key>tabTrigger</key>
+	<string>inf</string>
+	<key>uuid</key>
+	<string>DFE93FD2-103F-4DE4-B423-1C4D3989EF39</string>
+</dict>
+</plist>

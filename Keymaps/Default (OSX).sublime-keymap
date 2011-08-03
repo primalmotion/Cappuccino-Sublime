@@ -1,0 +1,13 @@
+[
+    { "keys": ["ctrl+shift+d"], "command": "lookup_symbol" },
+    { "keys": ["]"], "command": "balance_brackets", "context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "source.js.cappuccino" }
+        ]
+    },
+    { "keys": ["]"], "command": "balance_brackets", "context":
+        [
+            { "key": "selector", "operator": "equal", "operand": "source.js.objj" }
+        ]
+    }
+]
