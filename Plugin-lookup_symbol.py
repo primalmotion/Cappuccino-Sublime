@@ -36,6 +36,15 @@ end tell
 
     def lookup(self, target):
         region = self.view.sel()[0]
+        region = sublime.Region(region.a, region.b)
+        wordRegion = self.view.word(region)
+        word = self.view.substr(wordRegion)
+
+        # If the region is empty (a cursor) and is to the right of a non-empty word,
+        # move it one character to the left so that the scope is the scope of the word.
+        if region.empty() and word and region.begin() == wordRegion.end():
+            region = sublime.Region(region.a - 1, region.a - 1)
+
         line = self.view.substr(self.view.line(region))
         scopes = self.view.scope_name(region.begin()).split()
         searchText = ""
