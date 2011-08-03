@@ -1,16 +1,16 @@
 import sublime
 import sublime_plugin
-import os
 import re
+import subprocess
 
 
 class LookupSymbolCommand(sublime_plugin.TextCommand):
-    INGREDIENTS_SEARCH_COMMAND = '''/usr/bin/osascript <<ENDSCRIPT
+    INGREDIENTS_SEARCH_COMMAND = '''
 tell application "Ingredients"
     search front window query "{0}"
     activate
 end tell
-ENDSCRIPT'''
+'''
 
     def __init__(self, view):
         super(LookupSymbolCommand, self).__init__(view)
@@ -80,4 +80,8 @@ ENDSCRIPT'''
             return None
 
     def lookupInIngredients(self, searchText):
-        os.system(self.INGREDIENTS_SEARCH_COMMAND.format(searchText))
+        process = subprocess.Popen(["/usr/bin/osascript"], stdin=subprocess.PIPE)
+
+        if process:
+            process.communicate(input=self.INGREDIENTS_SEARCH_COMMAND.format(searchText))
+            process.stdin.close()
