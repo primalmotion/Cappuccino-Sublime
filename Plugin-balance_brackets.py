@@ -36,12 +36,6 @@ from subprocess import Popen, PIPE, STDOUT
 class BalanceBracketsCommand(sublime_plugin.TextCommand):
     PARSER_PATH = "Support/lib/objj_parser.rb"
 
-    def __init__(self, view):
-        super(BalanceBracketsCommand, self).__init__(view)
-        dataPath = os.path.dirname(sublime.packages_path())
-        relativePackagePath = os.path.dirname(self.view.settings().get('syntax'))
-        self.packagePath = os.path.join(dataPath, relativePackagePath)
-
     def is_enabled(self):
         return self.view.settings().get("syntax").endswith("/Objective-J.tmLanguage")
 
@@ -65,12 +59,17 @@ class BalanceBracketsCommand(sublime_plugin.TextCommand):
         os.putenv("TM_CURRENT_LINE", self.view.substr(line))
         os.putenv("TM_LINE_INDEX", unicode(self.view.rowcol(point)[1]))
         os.putenv("TM_SUPPORT_PATH", os.getcwd())
-        pipe = Popen(["ruby", os.path.join(self.packagePath, self.PARSER_PATH)], shell=False, stdout=PIPE, stderr=STDOUT).stdout
+        pipe = Popen(["ruby", os.path.join(self.package_path(), self.PARSER_PATH)], shell=False, stdout=PIPE, stderr=STDOUT).stdout
         snippet = pipe.read()
         pipe.close()
 
         self.view.erase(edit, line)
         self.view.run_command("insert_snippet", {"contents": snippet})
+
+    def package_path(self):
+        dataPath = os.path.dirname(sublime.packages_path())
+        relativePackagePath = os.path.dirname(self.view.settings().get('syntax'))
+        return os.path.join(dataPath, relativePackagePath)
 
     def insert(self, edit, selection):
         # If the selection is empty and the character to the right of the cursor is ']',
