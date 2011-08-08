@@ -5,6 +5,7 @@
 	<key>fileTypes</key>
 	<array>
 		<string>j</string>
+		<string>h</string>
 	</array>
 	<key>foldingStartMarker</key>
 	<string>(?x)
@@ -137,13 +138,18 @@
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>"</string>
+			<string>(?:(")|(\n))</string>
 			<key>endCaptures</key>
 			<dict>
-				<key>0</key>
+				<key>1</key>
 				<dict>
 					<key>name</key>
 					<string>punctuation.definition.string.end.js.objj</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>invalid.illegal.unclosed-string.js.objj</string>
 				</dict>
 			</dict>
 			<key>name</key>
@@ -389,6 +395,12 @@
 		</dict>
 		<dict>
 			<key>match</key>
+			<string>\bCG(Rect|Point|Size|Inset)\b</string>
+			<key>name</key>
+			<string>support.type.cappuccino</string>
+		</dict>
+		<dict>
+			<key>match</key>
 			<string>\bCP(NotFound|Ordered(Ascending|Descending|Same))\b</string>
 			<key>name</key>
 			<string>support.constant.cappuccino</string>
@@ -414,6 +426,26 @@
 		<dict>
 			<key>include</key>
 			<string>#bracketed_content</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#pragma-mark</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#preprocessor-conditional-block</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#preprocessor-define</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#import</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#_function</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -704,36 +736,16 @@
 					<key>end</key>
 					<string>$\n?</string>
 					<key>name</key>
-					<string>comment.line.double-slash.c++</string>
+					<string>comment.line.double-slash.js.objj</string>
 					<key>patterns</key>
 					<array>
 						<dict>
 							<key>match</key>
 							<string>(?&gt;\\\s*\n)</string>
 							<key>name</key>
-							<string>punctuation.separator.continuation.c++</string>
+							<string>punctuation.separator.continuation.js.objj</string>
 						</dict>
 					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>disabled</key>
-		<dict>
-			<key>begin</key>
-			<string>^\s*#\s*if(n?def)?\b.*$</string>
-			<key>comment</key>
-			<string>eat nested preprocessor if(def)s</string>
-			<key>end</key>
-			<string>^\s*#\s*endif\b.*$</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#disabled</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#pragma-mark</string>
 				</dict>
 			</array>
 		</dict>
@@ -743,27 +755,15 @@
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#preprocessor-rule-enabled-implementation</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#preprocessor-rule-disabled-implementation</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#preprocessor-rule-other-implementation</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#property_directive</string>
-				</dict>
-				<dict>
-					<key>include</key>
 					<string>#special_variables</string>
 				</dict>
 				<dict>
 					<key>include</key>
 					<string>#method_super</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#instance_variables</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -777,27 +777,91 @@
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#preprocessor-rule-enabled-interface</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#preprocessor-rule-disabled-interface</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#preprocessor-rule-other-interface</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#properties</string>
-				</dict>
-				<dict>
-					<key>include</key>
 					<string>#protocol_list</string>
 				</dict>
 				<dict>
 					<key>include</key>
 					<string>#method</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>$base</string>
+				</dict>
+			</array>
+		</dict>
+		<key>instance_variables</key>
+		<dict>
+			<key>name</key>
+			<string>meta.scope.instance-variables.js.objj</string>
+			<key>begin</key>
+			<string>^\{</string>
+			<key>end</key>
+			<string>^\}</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>\s+(@accessors)(\()?</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.other.accessors.js.objj</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.accessors.begin.js.objj</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>\s*(?:(\))|;)</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.accessors.end.js.objj</string>
+						</dict>
+					</dict>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>\b(property|[gs]etter)\s*(=)\s*([A-Za-z_][A-Za-z0-9_]*)</string>
+							<key>captures</key>
+							<dict>
+								<key>1</key>
+								<dict>
+									<key>name</key>
+									<string>keyword.other.property.attribute.js.objj</string>
+								</dict>
+								<key>2</key>
+								<dict>
+									<key>name</key>
+									<string>keyword.operator.js.objj</string>
+								</dict>
+								<key>3</key>
+								<dict>
+									<key>name</key>
+									<string>entity.name.accessor.js.objj</string>
+								</dict>
+							</dict>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>\breadonly\b</string>
+							<key>captures</key>
+							<dict>
+								<key>0</key>
+								<dict>
+									<key>name</key>
+									<string>keyword.other.property.attribute.js.objj</string>
+								</dict>
+							</dict>
+						</dict>
+					</array>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -840,10 +904,6 @@
 						<dict>
 							<key>include</key>
 							<string>#protocol_list</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#protocol_type_qualifier</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -903,10 +963,6 @@
 						</dict>
 						<dict>
 							<key>include</key>
-							<string>#protocol_type_qualifier</string>
-						</dict>
-						<dict>
-							<key>include</key>
 							<string>$base</string>
 						</dict>
 					</array>
@@ -922,7 +978,7 @@
 			<key>begin</key>
 			<string>^(?=-|\+)</string>
 			<key>end</key>
-			<string>(?&lt;=\})|(?=#)</string>
+			<string>(?&lt;=^\})|(?=#)|(?&lt;=^[\-+])</string>
 			<key>name</key>
 			<string>meta.method-with-body.js.objj</string>
 			<key>patterns</key>
@@ -937,6 +993,74 @@
 				</dict>
 			</array>
 		</dict>
+		<key>import</key>
+		<dict>
+			<key>begin</key>
+			<string>^@import\b</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>0</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.import.js.objj</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(?:(?=(?://|/\*))|$)</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>(&lt;)(.+?)(&gt;)</string>
+					<key>name</key>
+					<string>meta.import.framework-path.js.objj</string>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.import.path.begin.js.objj</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>string.import.path.js.objj</string>
+						</dict>
+						<key>3</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.import.path.end.js.objj</string>
+						</dict>
+					</dict>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>(@?").+?(")</string>
+					<key>name</key>
+					<string>meta.import.relative-path.js.objj</string>
+					<key>captures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>string.quoted.double.js.objj</string>
+						</dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.begin.js.objj</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.definition.string.end.js.objj</string>
+						</dict>
+					</dict>
+				</dict>
+			</array>
+			<key>name</key>
+			<string>meta.import.js.objj</string>
+		</dict>
 		<key>pragma-mark</key>
 		<dict>
 			<key>captures</key>
@@ -944,17 +1068,17 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>meta.preprocessor.c</string>
+					<string>meta.preprocessor.js.objj</string>
 				</dict>
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.control.import.pragma.c</string>
+					<string>keyword.control.preprocessor.pragma.js.objj</string>
 				</dict>
 				<key>3</key>
 				<dict>
 					<key>name</key>
-					<string>meta.toc-list.pragma-mark.c</string>
+					<string>meta.toc-list.pragma-mark.js.objj</string>
 				</dict>
 			</dict>
 			<key>match</key>
@@ -962,434 +1086,118 @@
 			<key>name</key>
 			<string>meta.section</string>
 		</dict>
-		<key>preprocessor-rule-disabled-implementation</key>
+		<key>preprocessor-conditional-block</key>
 		<dict>
 			<key>begin</key>
-			<string>^\s*(#(if)\s+(0)\b).*</string>
+			<string>^\s*(#\s*(if)\b.*?(?:(?=(?://|/\*))|$))</string>
 			<key>captures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>meta.preprocessor.c</string>
+					<string>meta.preprocessor.js.objj</string>
 				</dict>
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.control.import.if.c</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>constant.numeric.preprocessor.c</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>^\s*(#\s*(endif)\b.*?(?:(?=(?://|/\*))|$))</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>^\s*(#\s*(else)\b)</string>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>meta.preprocessor.c</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.control.import.else.c</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(?=^\s*#\s*endif\b.*?(?:(?=(?://|/\*))|$))</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#interface_innards</string>
-						</dict>
-					</array>
-				</dict>
-				<dict>
-					<key>begin</key>
-					<string></string>
-					<key>end</key>
-					<string>(?=^\s*#\s*(else|endif)\b.*?(?:(?=(?://|/\*))|$))</string>
-					<key>name</key>
-					<string>comment.block.preprocessor.if-branch.c</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#disabled</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#pragma-mark</string>
-						</dict>
-					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>preprocessor-rule-disabled-interface</key>
-		<dict>
-			<key>begin</key>
-			<string>^\s*(#(if)\s+(0)\b).*</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>meta.preprocessor.c</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.control.import.if.c</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>constant.numeric.preprocessor.c</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>^\s*(#\s*(endif)\b.*?(?:(?=(?://|/\*))|$))</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>^\s*(#\s*(else)\b)</string>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>meta.preprocessor.c</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.control.import.else.c</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(?=^\s*#\s*endif\b.*?(?:(?=(?://|/\*))|$))</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#interface_innards</string>
-						</dict>
-					</array>
-				</dict>
-				<dict>
-					<key>begin</key>
-					<string></string>
-					<key>end</key>
-					<string>(?=^\s*#\s*(else|endif)\b.*?(?:(?=(?://|/\*))|$))</string>
-					<key>name</key>
-					<string>comment.block.preprocessor.if-branch.c</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#disabled</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#pragma-mark</string>
-						</dict>
-					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>preprocessor-rule-enabled-implementation</key>
-		<dict>
-			<key>begin</key>
-			<string>^\s*(#(if)\s+(0*1)\b)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>meta.preprocessor.c</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.control.import.if.c</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>constant.numeric.preprocessor.c</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>^\s*(#\s*(endif)\b.*?(?:(?=(?://|/\*))|$))</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>^\s*(#\s*(else)\b).*</string>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>meta.preprocessor.c</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.control.import.else.c</string>
-						</dict>
-					</dict>
-					<key>contentName</key>
-					<string>comment.block.preprocessor.else-branch.c</string>
-					<key>end</key>
-					<string>(?=^\s*#\s*endif\b.*?(?:(?=(?://|/\*))|$))</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#disabled</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#pragma-mark</string>
-						</dict>
-					</array>
-				</dict>
-				<dict>
-					<key>begin</key>
-					<string></string>
-					<key>end</key>
-					<string>(?=^\s*#\s*(else|endif)\b.*?(?:(?=(?://|/\*))|$))</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#implementation_innards</string>
-						</dict>
-					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>preprocessor-rule-enabled-interface</key>
-		<dict>
-			<key>begin</key>
-			<string>^\s*(#(if)\s+(0*1)\b)</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>meta.preprocessor.c</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.control.import.if.c</string>
-				</dict>
-				<key>3</key>
-				<dict>
-					<key>name</key>
-					<string>constant.numeric.preprocessor.c</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>^\s*(#\s*(endif)\b.*?(?:(?=(?://|/\*))|$))</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>^\s*(#\s*(else)\b).*</string>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>meta.preprocessor.c</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.control.import.else.c</string>
-						</dict>
-					</dict>
-					<key>contentName</key>
-					<string>comment.block.preprocessor.else-branch.c</string>
-					<key>end</key>
-					<string>(?=^\s*#\s*endif\b.*?(?:(?=(?://|/\*))|$))</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#disabled</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#pragma-mark</string>
-						</dict>
-					</array>
-				</dict>
-				<dict>
-					<key>begin</key>
-					<string></string>
-					<key>end</key>
-					<string>(?=^\s*#\s*(else|endif)\b.*?(?:(?=(?://|/\*))|$))</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>include</key>
-							<string>#interface_innards</string>
-						</dict>
-					</array>
-				</dict>
-			</array>
-		</dict>
-		<key>preprocessor-rule-other-implementation</key>
-		<dict>
-			<key>begin</key>
-			<string>^\s*(#\s*(if(n?def)?)\b.*?(?:(?=(?://|/\*))|$))</string>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>meta.preprocessor.c</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>keyword.control.import.c</string>
+					<string>keyword.control.preprocessor.js.objj</string>
 				</dict>
 			</dict>
 			<key>end</key>
 			<string>^\s*(#\s*(endif)\b).*?(?:(?=(?://|/\*))|$)</string>
+			<key>contentName</key>
+			<string>meta.scope.preprocessor.conditional.js.objj</string>
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>captures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>meta.preprocessor.js.objj</string>
+						</dict>
+						<key>2</key>
+						<dict>
+							<key>name</key>
+							<string>keyword.control.preprocessor.js.objj</string>
+						</dict>
+					</dict>
+					<key>match</key>
+					<string>^\s*(#\s*(else)\b.*?(?:(?=(?://|/\*))|$))</string>
+				</dict>
 				<dict>
 					<key>include</key>
 					<string>#implementation_innards</string>
 				</dict>
 			</array>
 		</dict>
-		<key>preprocessor-rule-other-interface</key>
+		<key>preprocessor-define</key>
 		<dict>
 			<key>begin</key>
-			<string>^\s*(#\s*(if(n?def)?)\b.*?(?:(?=(?://|/\*))|$))</string>
-			<key>captures</key>
+			<string>(?x)
+        		^\s*\#\s*(define)\s+             # define
+        		((?&lt;id&gt;[a-zA-Z_][a-zA-Z0-9_]*))  # macro name
+        		(?:                              # and optionally:
+        		    (\()                         # an open parenthesis
+        		        (
+        		            \s* [a-zA-Z_][a-zA-Z0-9_]* \s*       # first argument
+        		            ((,) \s* [a-zA-Z_][a-zA-Z0-9_]* \s*)*  # additional arguments
+        		            (?:\.\.\.)?          # varargs ellipsis?
+        		        )
+        		    (\))                         # a close parenthesis
+        		)?
+        	</string>
+			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>meta.preprocessor.c</string>
+					<string>keyword.control.import.define.js.objj</string>
 				</dict>
 				<key>2</key>
 				<dict>
 					<key>name</key>
-					<string>keyword.control.import.c</string>
+					<string>entity.name.function.preprocessor.js.objj</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.parameters.js.objj</string>
+				</dict>
+				<key>5</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.preprocessor.js.objj</string>
+				</dict>
+				<key>7</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.separator.parameters.js.objj</string>
+				</dict>
+				<key>8</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.parameters.js.objj</string>
 				</dict>
 			</dict>
 			<key>end</key>
-			<string>^\s*(#\s*(endif)\b).*?(?:(?=(?://|/\*))|$)</string>
+			<string>(?=(?://|/\*))|$</string>
+			<key>name</key>
+			<string>meta.preprocessor.macro.js.objj</string>
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>match</key>
+					<string>(?&gt;\\\s*\n)</string>
+					<key>name</key>
+					<string>punctuation.separator.continuation.js.objj</string>
+				</dict>
 				<dict>
 					<key>include</key>
-					<string>#interface_innards</string>
+					<string>$base</string>
 				</dict>
 			</array>
-		</dict>
-		<key>properties</key>
-		<dict>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>begin</key>
-					<string>((@)property)\s*(\()</string>
-					<key>beginCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.other.property.js.objj</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.keyword.js.objj</string>
-						</dict>
-						<key>3</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.section.scope.begin.js.objj</string>
-						</dict>
-					</dict>
-					<key>end</key>
-					<string>(\))</string>
-					<key>endCaptures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.section.scope.end.js.objj</string>
-						</dict>
-					</dict>
-					<key>name</key>
-					<string>meta.property-with-attributes.js.objj</string>
-					<key>patterns</key>
-					<array>
-						<dict>
-							<key>match</key>
-							<string>\b(getter|setter|readonly|readwrite|assign|retain|copy|nonatomic)\b</string>
-							<key>name</key>
-							<string>keyword.other.property.attribute</string>
-						</dict>
-					</array>
-				</dict>
-				<dict>
-					<key>captures</key>
-					<dict>
-						<key>1</key>
-						<dict>
-							<key>name</key>
-							<string>keyword.other.property.js.objj</string>
-						</dict>
-						<key>2</key>
-						<dict>
-							<key>name</key>
-							<string>punctuation.definition.keyword.js.objj</string>
-						</dict>
-					</dict>
-					<key>match</key>
-					<string>((@)property)\b</string>
-					<key>name</key>
-					<string>meta.property.js.objj</string>
-				</dict>
-			</array>
-		</dict>
-		<key>property_directive</key>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.keyword.js.objj</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(@)(dynamic|synthesize)\b</string>
-			<key>name</key>
-			<string>keyword.other.property.directive.js.objj</string>
 		</dict>
 		<key>protocol_list</key>
 		<dict>
@@ -1425,13 +1233,6 @@
 				</dict>
 			</array>
 		</dict>
-		<key>protocol_type_qualifier</key>
-		<dict>
-			<key>match</key>
-			<string>\b(in|out|inout|oneway|bycopy|byref)\b</string>
-			<key>name</key>
-			<string>storage.modifier.protocol.js.objj</string>
-		</dict>
 		<key>special_variables</key>
 		<dict>
 			<key>patterns</key>
@@ -1449,6 +1250,38 @@
 					<string>variable.language.js.objj</string>
 				</dict>
 			</array>
+		</dict>
+		<key>_function</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.js.objj</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.parameters.begin.js.objj</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.function.js.objj</string>
+				</dict>
+				<key>4</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.parameters.end.js.objj</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>match export of _function like: _function(myFunc(arg))</string>
+			<key>match</key>
+			<string>^_function\(([a-zA-Z_$]\w*)?\s*(\()(.*?)(\))\)</string>
+			<key>name</key>
+			<string>meta._function.export.js.objj</string>
 		</dict>
 	</dict>
 	<key>scopeName</key>
