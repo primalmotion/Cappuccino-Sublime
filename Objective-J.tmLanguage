@@ -642,23 +642,6 @@
 								<key>1</key>
 								<dict>
 									<key>name</key>
-									<string>punctuation.separator.arguments.js.objj</string>
-								</dict>
-								<key>2</key>
-								<dict>
-									<key>name</key>
-									<string>entity.name.argument.js.objj</string>
-								</dict>
-							</dict>
-							<key>match</key>
-							<string>\b(:)\s*([A-Za-z_][A-Za-z0-9_]*)</string>
-						</dict>
-						<dict>
-							<key>captures</key>
-							<dict>
-								<key>1</key>
-								<dict>
-									<key>name</key>
 									<string>entity.name.function.name-of-parameter.js.objj</string>
 								</dict>
 								<key>2</key>
