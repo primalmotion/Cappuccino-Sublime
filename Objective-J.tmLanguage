@@ -195,63 +195,21 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\b(CP_DURING|CP_HANDLER|CP_ENDHANDLER)\b</string>
-			<key>name</key>
-			<string>keyword.control.macro.js.objj</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.keyword.js.objj</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(@)(try|catch|finally|throw)\b</string>
-			<key>name</key>
-			<string>keyword.control.exception.js.objj</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.keyword.js.objj</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(@)(synchronized)\b</string>
-			<key>name</key>
-			<string>keyword.control.synchronize.js.objj</string>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.keyword.js.objj</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(@)(defs|encode)\b</string>
-			<key>name</key>
-			<string>keyword.other.js.objj</string>
-		</dict>
-		<dict>
-			<key>match</key>
 			<string>\bid\b(\s|\n)?</string>
 			<key>name</key>
 			<string>storage.type.id.js.objj</string>
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\b((IBO|@o)utlet|(IBA|@a)ction|BOOL|SEL|id|unichar|IMP|Class)\b</string>
-			<key>name</key>
-			<string>storage.type.js.objj</string>
+			<string>\W((IBO|@o)utlet|(IBA|@a)ction|BOOL|SEL|id|unichar|IMP|Class)\W</string>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.js.objj</string>
+				</dict>
+			</dict>
 		</dict>
 		<dict>
 			<key>captures</key>
@@ -319,20 +277,6 @@
 					<string>entity.name.selector.name-of-parameter.js.objj</string>
 				</dict>
 			</array>
-		</dict>
-		<dict>
-			<key>captures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.storage.modifier.js.objj</string>
-				</dict>
-			</dict>
-			<key>match</key>
-			<string>(@)(synchronized|public|private|protected)\b</string>
-			<key>name</key>
-			<string>storage.modifier.js.objj</string>
 		</dict>
 		<dict>
 			<key>match</key>
@@ -442,6 +386,10 @@
 		<dict>
 			<key>include</key>
 			<string>#import</string>
+		</dict>
+		<dict>
+			<key>include</key>
+			<string>#special_variables</string>
 		</dict>
 		<dict>
 			<key>include</key>
@@ -607,10 +555,6 @@
 						</dict>
 						<dict>
 							<key>include</key>
-							<string>#special_variables</string>
-						</dict>
-						<dict>
-							<key>include</key>
 							<string>source.js</string>
 						</dict>
 						<dict>
@@ -651,15 +595,11 @@
 								</dict>
 							</dict>
 							<key>match</key>
-							<string>\b([A-Za-z_][A-Za-z0-9_]*)\s*(:)</string>
+							<string>\b([A-Za-z_][A-Za-z0-9_]*)(:)</string>
 						</dict>
 						<dict>
 							<key>include</key>
 							<string>#bracketed_content</string>
-						</dict>
-						<dict>
-							<key>include</key>
-							<string>#special_variables</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -736,10 +676,6 @@
 		<dict>
 			<key>patterns</key>
 			<array>
-				<dict>
-					<key>include</key>
-					<string>#special_variables</string>
-				</dict>
 				<dict>
 					<key>include</key>
 					<string>#method_super</string>

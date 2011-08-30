@@ -224,4 +224,9 @@ completions = [
         sublime.error_message("Cappuccino completions successfully generated.")
 
     def is_enabled(self):
-        return self.window.active_view().settings().get("syntax").endswith("/Objective-J.tmLanguage")
+        activeView = self.window.active_view()
+
+        if activeView:
+            return activeView.settings().get("syntax").endswith("/Objective-J.tmLanguage")
+        else:
+            return False
