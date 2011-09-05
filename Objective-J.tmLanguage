@@ -18,7 +18,7 @@
 	<key>keyEquivalent</key>
 	<string>^~O</string>
 	<key>name</key>
-	<string>Objective-C</string>
+	<string>Objective-J</string>
 	<key>patterns</key>
 	<array>
 		<dict>
