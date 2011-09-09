@@ -2,7 +2,8 @@ import sublime
 import sublime_plugin
 import re
 import subprocess
-
+from UserString import MutableString
+import os
 
 class LookupSymbolCommand(sublime_plugin.TextCommand):
     INGREDIENTS_SEARCH_COMMAND = '''
@@ -15,7 +16,8 @@ end tell
     def __init__(self, view):
         super(LookupSymbolCommand, self).__init__(view)
         self.searchHandlers = {
-            "ingredients": self.lookupInIngredients
+            "ingredients": self.lookupInIngredients,
+            "cappdoc": self.lookupInCappuccinoDoc
         }
 
     def is_enabled(self):
@@ -80,11 +82,16 @@ end tell
         elif scopes[0] == "support.class.cappuccino":
             searchText = self.view.substr(self.view.word(region))
 
+        elif target == "cappdoc" and "source.js.objj" in scopes:
+            searchText = self.view.substr(self.view.word(region))
+
+
         if not searchText:
             return "You are not within a method definition or invocation."
         else:
-            searchText = re.sub(r"\bCP(?=\w+)", "NS", searchText)
-            searchText = searchText.replace("Cib", "Nib")
+            if target == "ingredients":
+                searchText = re.sub(r"\bCP(?=\w+)", "NS", searchText)
+                searchText = searchText.replace("Cib", "Nib")
             self.searchHandlers[target](searchText)
             return None
 
@@ -94,3 +101,33 @@ end tell
         if process:
             process.communicate(input=self.INGREDIENTS_SEARCH_COMMAND.format(searchText))
             process.stdin.close()
+
+    def lookupInCappuccinoDoc(self, searchText):
+        """
+        Open the documentation related to given text
+        @type searchText: String
+        @param searchText: The text to search in documentation
+        """
+        page_name_buffer = MutableString()
+        for c in searchText:
+            if c.isupper():
+                page_name_buffer.append("_")
+            page_name_buffer.append(c.lower())
+        page_name_buffer.append(".html")
+
+        base_url = self.view.settings().get("cappuccino_doc_base_url",
+             "http://cappuccino.org/learn/documentation/")
+
+        # some classes in Cappuccino are docs are identified as
+        # interface_, some as class_. I don't really know why. So
+        # Here, we check for both path, and thanks to open command,
+        # In case of 404, it returns a non zero code.
+        interface_style = "interface"
+        url = "%s%s%s" % (base_url, interface_style, page_name_buffer)
+        if os.system("open '%s'" % url) == 0:
+            return
+
+        class_style = "class"
+        url = "%s%s%s" % (base_url, class_style, page_name_buffer)
+        if os.system("open '%s'" % url) == 0:
+            return

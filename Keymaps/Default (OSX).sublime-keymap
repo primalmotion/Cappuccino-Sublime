@@ -1,5 +1,6 @@
 [
-    { "keys": ["ctrl+shift+d"], "command": "lookup_symbol" },
+    { "keys": ["ctrl+alt+d"], "command": "lookup_symbol", "args": {"target": "cappdoc"}},
+    { "keys": ["ctrl+shift+d"], "command": "lookup_symbol"},
     { "keys": ["]"], "command": "balance_brackets", "context":
         [
             { "key": "selector", "operator": "equal", "operand": "source.js.cappuccino" }
